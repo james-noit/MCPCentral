@@ -1,0 +1,23 @@
+{
+  "name": "mcpcentral",
+  "version": "0.1.0",
+  "description": "Desktop utility for managing MCP servers as background services.",
+  "main": "electron-main/main.js",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "electron .",
+    "build": "node -e \"require('fs').mkdirSync('out', { recursive: true }); console.log('Scaffold build complete: out/');\"",
+    "package": "npm run build",
+    "test": "node --test tests/**/*.test.js"
+  },
+  "keywords": [
+    "mcp",
+    "electron",
+    "daemon"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^42.3.3"
+  }
+}
