@@ -20,8 +20,7 @@ function getPlatformPath() {
 
 function writePathFileIfDistExists() {
   const platformPath = getPlatformPath();
-  const executablePath = path.join(distDir, platformPath);
-  if (!fs.existsSync(executablePath)) {
+  if (!fs.existsSync(distDir)) {
     return false;
   }
   fs.writeFileSync(pathFile, platformPath);
