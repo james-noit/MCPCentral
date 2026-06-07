@@ -37,6 +37,7 @@ curl http://127.0.0.1:3001/api/v1/health
 ## Scripts
 
 - `npm run dev` — run Electron app
+- `npm run dev` auto-recovers the Electron binary metadata (`node_modules/electron/path.txt`) if it is missing
 - `npm run test` — run Node tests
 - `npm run build` — generate scaffold build output in `out/`
 - `npm run package` — alias for build in this scaffold

@@ -5,7 +5,7 @@
   "main": "electron-main/main.js",
   "type": "commonjs",
   "scripts": {
-    "dev": "electron .",
+    "dev": "node scripts/ensure-electron.js && electron .",
     "build": "node -e \"require('fs').mkdirSync('out', { recursive: true }); console.log('Scaffold build complete: out/');\"",
     "package": "npm run build",
     "test": "node --test tests/**/*.test.js"
