@@ -13,7 +13,7 @@ MCPCentral is an Electron-based desktop utility scaffold for deploying and manag
 
 ## Prerequisites
 
-- Node.js 20+ (tested with modern LTS)
+- Node.js 22.12+ (required by current Electron dependency)
 - npm
 
 ## Install
