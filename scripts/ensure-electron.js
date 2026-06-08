@@ -18,16 +18,24 @@ function getPlatformPath() {
   return "electron";
 }
 
-function writePathFileIfDistExists() {
+function getExecutablePath() {
+  return path.join(distDir, getPlatformPath());
+}
+
+function hasExecutable() {
+  return fs.existsSync(getExecutablePath());
+}
+
+function writePathFileIfExecutableExists() {
   const platformPath = getPlatformPath();
-  if (!fs.existsSync(distDir)) {
+  if (!hasExecutable()) {
     return false;
   }
   fs.writeFileSync(pathFile, platformPath);
   return true;
 }
 
-if (fs.existsSync(pathFile)) {
+if (fs.existsSync(pathFile) && hasExecutable()) {
   process.exit(0);
 }
 
@@ -36,17 +44,29 @@ if (!fs.existsSync(installScript)) {
   process.exit(1);
 }
 
-console.log("Electron binary metadata missing. Reinstalling Electron binary...");
-execFileSync(process.execPath, [installScript], {
-  cwd: rootDir,
-  stdio: "inherit",
-});
-
-if (!fs.existsSync(pathFile) && writePathFileIfDistExists()) {
-  console.log("Recreated Electron path metadata.");
+if (fs.existsSync(pathFile) && !hasExecutable()) {
+  fs.rmSync(pathFile, { force: true });
 }
 
-if (!fs.existsSync(pathFile)) {
+console.log("Electron binary metadata missing. Reinstalling Electron binary...");
+for (let attempt = 0; attempt < 2; attempt += 1) {
+  fs.rmSync(pathFile, { force: true });
+  fs.rmSync(distDir, { recursive: true, force: true });
+  execFileSync(process.execPath, [installScript], {
+    cwd: rootDir,
+    stdio: "inherit",
+  });
+
+  if (!fs.existsSync(pathFile) && writePathFileIfExecutableExists()) {
+    console.log("Recreated Electron path metadata.");
+  }
+
+  if (fs.existsSync(pathFile) && hasExecutable()) {
+    break;
+  }
+}
+
+if (!fs.existsSync(pathFile) || !hasExecutable()) {
   console.error("Electron binary metadata still missing after reinstall.");
   process.exit(1);
 }
