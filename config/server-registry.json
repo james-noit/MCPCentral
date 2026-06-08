@@ -1,0 +1,13 @@
+[
+  {
+    "id": "local-test-mcp-server",
+    "name": "Local Test MCP Server",
+    "description": "Built-in test server for validating deployment and daemon management.",
+    "runtime": "node",
+    "command": "node",
+    "args": [
+      "deployer/test-mcp-server.js"
+    ],
+    "endpoint": "http://127.0.0.1:3001/api/v1/health"
+  }
+]
